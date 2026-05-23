@@ -1,0 +1,40 @@
+# Node
+node_modules/
+.pnp/
+.pnp.js
+
+# Next.js
+.next/
+.out/
+
+# Build outputs
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# pnpm
+modules/
+
+# lockfiles (commit pnpm-lock.yaml by default, uncomment to ignore)
+pnpm-lock.yaml
+pnpm-workspace.yaml
