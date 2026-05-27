@@ -1,110 +1,47 @@
-# SecureCam Quito — Sitio Web
+# HomeSecurity
 
-Sitio web profesional para negocio de cámaras de seguridad en Quito, construido con **Next.js 16** + **Tailwind CSS**.
+HomeSecurity es un sitio web informativo para una empresa de servicios de seguridad, orientado a generar consultas por WhatsApp y mostrar los servicios de forma clara y visual.
 
-## 🚀 Inicio rápido
+## 🛠️ Tecnologías Utilizadas
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- pnpm
+
+## 📋 Requisitos Previos
+
+- Node.js >= 16 (recomendado Node.js 18+)
+- pnpm instalado globalmente (`npm i -g pnpm`)
+
+## 🚀 Instalación y Configuración
+
+Clona el repositorio y ejecuta los comandos siguientes en tu terminal:
 
 ```bash
-# 1. Instala dependencias
+git clone <repo-url>
+cd HomeSecurity
 pnpm install
 
-# 2. Servidor de desarrollo
+# ejecutar en modo desarrollo
 pnpm dev
-
-# 3. Abre en el navegador
-http://localhost:3000
 ```
 
-## 📁 Estructura
+## 💻 Uso
 
-```
-securecam/
-├── app/
-│   ├── layout.tsx          # Layout raíz (Navbar + WhatsApp + fuentes)
-│   ├── globals.css         # Estilos globales + clases utilitarias
-│   ├── page.tsx            # Home (7 secciones)
-│   ├── servicios/
-│   │   └── page.tsx        # Página de servicios detallada
-│   └── contacto/
-│       └── page.tsx        # Formulario de cotización
-├── components/
-│   ├── Navbar.tsx          # Navegación fija con scroll effect
-│   ├── WhatsAppButton.tsx  # Botón flotante de WhatsApp
-│   └── Footer.tsx          # Pie de página
-├── tailwind.config.ts
-└── next.config.js
-```
-
-## 📱 Páginas
-
-| Ruta | Descripción |
-|------|-------------|
-| `/` | Home con Hero, Problema, Servicios, Proceso, Por qué elegirnos, Testimonios, CTA final |
-| `/servicios` | Detalles completos de cada servicio con paquetes |
-| `/contacto` | Formulario de cotización + botón WhatsApp directo |
-
-## 🔧 Personalización
-
-### 1. Número de WhatsApp
-Busca `593999999999` en todos los archivos y reemplaza con tu número real.
-
-### 2. Imágenes
-Las imágenes vienen de Pexels (gratuitas). Para usar las tuyas:
-- Colócalas en `/public/`
-- Actualiza los `src` en `app/page.tsx`
-
-### 3. Precios
-Edita los precios en:
-- `app/page.tsx` → `services` array (Sección 3)
-- `app/servicios/page.tsx` → `serviceDetails` array
-
-### 4. Datos de contacto
-Actualiza en `components/Footer.tsx` y `app/contacto/page.tsx`:
-- Teléfono
-- Email
-- Dirección/sector
-
-## 🌐 Deploy en Vercel (gratis)
+Levanta la aplicación en modo desarrollo con:
 
 ```bash
-# 1. Instala Vercel CLI
-pnpm add -g vercel
-
-# 2. Deploy
-vercel
-
-# O conecta tu repositorio GitHub en vercel.com
+pnpm dev
 ```
 
-## ✅ Checklist de lanzamiento
+La aplicación quedará disponible en http://localhost:3000 por defecto.
 
-- [ ] Reemplazar número de WhatsApp real
-- [ ] Actualizar email de contacto
-- [ ] Subir fotos reales de instalaciones
-- [ ] Registrar dominio (ej: securecamquito.com)
-- [ ] Instalar Píxel de Meta (en `app/layout.tsx`)
-- [ ] Instalar Google Analytics (en `app/layout.tsx`)
-- [ ] Verificar velocidad en PageSpeed Insights
-- [ ] Probar en móvil
+Si deseas construir para producción:
 
-## 📊 Agregar Píxel de Meta
-
-En `app/layout.tsx`, antes de `</head>`:
-```html
-<Script id="meta-pixel" strategy="afterInteractive">
-  {`
-    !function(f,b,e,v,n,t,s){...}
-    fbq('init', 'TU_PIXEL_ID');
-    fbq('track', 'PageView');
-  `}
-</Script>
+```bash
+pnpm build
+pnpm start
 ```
 
-## 🎨 Paleta de colores
-
-| Color | Uso |
-|-------|-----|
-| `#03070f` navy-950 | Fondo principal |
-| `#06b6d4` cyan-500 | Acento principal / íconos |
-| `#f97316` orange-500 | CTAs / botones de acción |
-| `#25D366` | WhatsApp |

@@ -60,6 +60,16 @@
   }
 }
 
+/* ── Logo fade edges ── */
+.logo-soft {
+  border-radius: 0.50rem;
+  overflow: hidden;
+  background-clip: padding-box;
+  image-rendering: auto;
+  transform: translateZ(0);
+
+}
+
 /* ── Scrollbar ── */
 ::-webkit-scrollbar       { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--surface-100); }

@@ -1,17 +1,12 @@
 "use client";
 import { useState } from "react";
 import Footer from "@/components/Footer";
+import WaIcon from "@/components/WaIcon";
 import { MapPin, Phone, Clock, CheckCircle2, Send, Shield, ArrowRight } from "lucide-react";
-
-const WHATSAPP_URL =
-  "https://wa.me/593995555053?text=Hola%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20seguridad%20electr%C3%B3nica%20en%20mi%20hogar";
-const PHONE      = "0995 555 053";
-const PHONE_HREF = "tel:+593995555053";
+import { WHATSAPP_URL, WA_HOME, PHONE_DISPLAY, PHONE_HREF } from "@/lib/constant";
 
 const sectorOptions = [
-  "Norte de Quito","Centro de Quito","Sur de Quito",
-  "Cumbayá / Tumbaco","Los Chillos / Sangolquí",
-  "Calderón","Pomasqui / San Antonio","Otro sector",
+  "Costa","Sierra","Amazonía", "Otra provincia / ciudad",
 ];
 
 const serviceOptions = [
@@ -22,13 +17,11 @@ const serviceOptions = [
 
 const cameraOptions = ["1–2 cámaras","3–4 cámaras","5–8 cámaras","Más de 8","No aplica / No sé aún"];
 
-function WaIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.116 1.522 5.845L0 24l6.335-1.502A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.988-1.363l-.358-.212-3.762.893.955-3.682-.233-.379A9.818 9.818 0 1112 21.818z" />
-    </svg>
-  );
+
+/** Validates an Ecuadorian mobile number (09XXXXXXXX or +5939XXXXXXXX) */
+function isValidPhone(value: string): boolean {
+  const clean = value.replace(/[\s\-().+]/g, "");
+  return /^(0[9][0-9]{8}|5939[0-9]{8})$/.test(clean);
 }
 
 export default function ContactoPage() {
@@ -36,9 +29,15 @@ export default function ContactoPage() {
   const [form, setForm] = useState({
     name: "", phone: "", sector: "", service: "", cameras: "", message: "",
   });
+  const [phoneError, setPhoneError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+    if (name === "phone") {
+      setPhoneError(value && !isValidPhone(value) ? "Ingresa un número válido" : "");
+    }
+  };
 
   const handleSubmit = () => {
     if (!form.name || !form.phone || !form.sector) return;
@@ -49,11 +48,11 @@ export default function ContactoPage() {
 📍 Sector: ${form.sector}
 🔧 Servicio: ${form.service || "No especificado"}
 📷 Cámaras aprox.: ${form.cameras || "No aplica"}${form.message ? `\n💬 Mensaje: ${form.message}` : ""}`;
-    window.open(`https://wa.me/593995555053?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(WHATSAPP_URL(msg), "_blank");
     setSubmitted(true);
   };
 
-  const isValid = form.name.trim() && form.phone.trim() && form.sector;
+  const isValid = form.name.trim() && form.phone.trim() && form.sector && !phoneError;
   const showCameras = !form.service || form.service === "Cámaras de Seguridad" || form.service === "Paquete integral (varios servicios)";
 
   return (
@@ -79,13 +78,13 @@ export default function ContactoPage() {
       {/* Content */}
       <section className="py-12 pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-stretch">
 
             {/* ── Form column ────────────────────────────────── */}
-            <div className="lg:col-span-3 space-y-5">
+            <div className="lg:col-span-3 space-y-5 flex h-full flex-col">
 
               {submitted ? (
-                <div className="card text-center py-16 px-8">
+                <div className="card h-full flex flex-col justify-center text-center py-16 px-8">
                   <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle2 className="w-8 h-8 text-emerald-500" />
                   </div>
@@ -98,10 +97,10 @@ export default function ContactoPage() {
                   </button>
                 </div>
               ) : (
-                <div className="card">
+                <div className="card h-full flex flex-col">
                   <h2 className="font-display font-bold text-xl text-navy-900 mb-6">Formulario de cotización</h2>
 
-                  <div className="space-y-5">
+                  <div className="space-y-5 flex-1 flex flex-col">
 
                     {/* Name + Phone */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -119,18 +118,24 @@ export default function ContactoPage() {
                         </label>
                         <input type="tel" name="phone" value={form.phone} onChange={handleChange}
                           placeholder="Ej: 0999 123 456"
-                          className="input" />
+                          className={`input ${phoneError ? "border-red-400 focus:border-red-500" : ""}`}
+                          aria-invalid={!!phoneError}
+                          aria-describedby={phoneError ? "phone-error" : undefined}
+                        />
+                        {phoneError && (
+                          <p id="phone-error" className="text-red-600 text-xs mt-2">{phoneError}</p>
+                        )}
                       </div>
                     </div>
 
                     {/* Sector */}
                     <div>
                       <label className="block font-display font-semibold text-navy-800/60 text-xs uppercase tracking-wide mb-2">
-                        Sector en Quito <span className="text-orange-500">*</span>
+                        Provincia / ciudad en Ecuador <span className="text-orange-500">*</span>
                       </label>
                       <select name="sector" value={form.sector} onChange={handleChange}
                         className="input appearance-none cursor-pointer">
-                        <option value="">Selecciona tu sector</option>
+                        <option value="">Selecciona tu provincia o ciudad</option>
                         {sectorOptions.map(s => <option key={s} value={s}>{s}</option>)}
                       </select>
                     </div>
@@ -203,7 +208,7 @@ export default function ContactoPage() {
               )}
 
               {/* WhatsApp direct */}
-              <div className="bg-white border border-emerald-200 rounded-2xl p-6 shadow-sm">
+              <div className="bg-white border border-emerald-200 rounded-2xl p-6 shadow-sm h-full flex flex-col">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
                     <WaIcon className="w-5 h-5 text-[#25D366]" />
@@ -213,7 +218,7 @@ export default function ContactoPage() {
                     <p className="font-body text-navy-800/45 text-xs">Respuesta inmediata · Sin formularios</p>
                   </div>
                 </div>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
+                <a href={WA_HOME} target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-display font-semibold text-sm rounded-xl transition-colors shadow-sm">
                   <WaIcon className="w-4 h-4" />
                   Abrir WhatsApp directamente
@@ -222,10 +227,10 @@ export default function ContactoPage() {
             </div>
 
             {/* ── Sidebar ────────────────────────────────────── */}
-            <div className="lg:col-span-2 space-y-5">
+            <div className="lg:col-span-2 space-y-5 flex h-full flex-col">
 
               {/* Contact info */}
-              <div className="card">
+              <div className="card h-full flex flex-col">
                 <h3 className="font-display font-semibold text-navy-900 mb-5 text-sm">Información de contacto</h3>
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3">
@@ -235,7 +240,7 @@ export default function ContactoPage() {
                     <div>
                       <p className="font-body text-navy-800/45 text-xs mb-0.5">Teléfono / WhatsApp</p>
                       <a href={PHONE_HREF} className="font-display font-bold text-navy-900 text-xl hover:text-cobalt-500 transition-colors">
-                        {PHONE}
+                        {PHONE_DISPLAY}
                       </a>
                     </div>
                   </li>
@@ -246,7 +251,7 @@ export default function ContactoPage() {
                     <div>
                       <p className="font-body text-navy-800/45 text-xs mb-0.5">Área de cobertura</p>
                       <p className="font-display font-semibold text-navy-900 text-sm">
-                        Quito, Cumbayá, Tumbaco,<br />Los Chillos, Calderón y más
+                        Cobertura en todo Ecuador,<br />según la ubicación del proyecto
                       </p>
                     </div>
                   </li>
@@ -264,7 +269,7 @@ export default function ContactoPage() {
               </div>
 
               {/* Next steps */}
-              <div className="card">
+              <div className="card h-full flex flex-col">
                 <h3 className="font-display font-semibold text-navy-900 mb-4 text-sm">¿Qué pasa después?</h3>
                 <ol className="space-y-3.5">
                   {[
@@ -285,7 +290,7 @@ export default function ContactoPage() {
               </div>
 
               {/* Services list */}
-              <div className="card">
+              <div className="card h-full flex flex-col">
                 <h3 className="font-display font-semibold text-navy-900 mb-4 text-sm">Servicios disponibles</h3>
                 <ul className="space-y-2">
                   {serviceOptions.filter(s => s !== "Paquete integral (varios servicios)").map(s => (
@@ -304,7 +309,7 @@ export default function ContactoPage() {
               </div>
 
               {/* Guarantee */}
-              <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6">
+              <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6 h-full flex flex-col">
                 <div className="flex items-center gap-3 mb-2">
                   <Shield className="w-5 h-5 text-orange-500" />
                   <h3 className="font-display font-semibold text-navy-900 text-sm">Garantía incluida</h3>
