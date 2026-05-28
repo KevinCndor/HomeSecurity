@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://home-security-hh3dm2b61-kevin-cndor-s-projects.vercel.app/");
+const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://home-security-orpin.vercel.app");
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
