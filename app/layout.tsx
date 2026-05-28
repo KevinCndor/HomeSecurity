@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "www.example.com");
+const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.example.com");
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
