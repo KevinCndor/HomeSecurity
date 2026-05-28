@@ -32,6 +32,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
           rel="stylesheet"
         />
+        <meta name="robots" content="index,follow" />
+        <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "Home Security",
+              description:
+                "Cámaras, alarmas, control de acceso y cercas eléctricas en todo Ecuador. Cotización gratis por WhatsApp.",
+              url: siteUrl.toString(),
+              telephone: process.env.NEXT_PUBLIC_PHONE_DISPLAY ?? "",
+              logo: new URL("/images/og-image.png", siteUrl).toString(),
+              address: { "@type": "PostalAddress", addressCountry: "EC" },
+            }),
+          }}
+        />
       </head>
       <body className="font-body bg-surface-100 text-navy-900 antialiased">
         <Navbar />

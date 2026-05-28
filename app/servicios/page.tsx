@@ -7,6 +7,11 @@ import { Phone, ArrowRight } from "lucide-react";
 import { WA_SERVICIOS, PHONE_HREF, PHONE_DISPLAY, waService } from "@/lib/constant";
 import { serviceDetails } from "@/lib/serviceDetails";
 
+export const metadata = {
+  title: "Servicios — Home Security | Cámaras, Alarmas y Control de Acceso",
+  description: "Diseñamos, instalamos y mantenemos sistemas de seguridad: cámaras, alarmas, control de acceso y más en todo Ecuador.",
+};
+
 type ColorKey = "cobalt" | "orange" | "indigo" | "emerald" | "amber" | "red" | "sky" | "violet";
 
 const colorMap: Record<ColorKey, { bg: string; border: string; text: string; badge: string; dot: string }> = {

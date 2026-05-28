@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://home-security-orpin.vercel.app/sitemap.xml
+Host: https://home-security-orpin.vercel.app

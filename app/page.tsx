@@ -9,6 +9,12 @@ import {
   ChevronRight, AlertTriangle, Bell, Lock, Wifi, Flame, DoorOpen,
 } from "lucide-react";
 
+export const metadata = {
+  title: "Home Security — Seguridad Electrónica en Ecuador",
+  description:
+    "Cámaras, alarmas, control de acceso y cercas eléctricas. Cotización gratis por WhatsApp. Respondemos en menos de 1 hora en todo Ecuador.",
+};
+
 
 
 // ─── Hero ──────────────────────────────────────────────────────────────────

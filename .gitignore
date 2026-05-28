@@ -10,6 +10,7 @@ node_modules/
 # Build outputs
 dist/
 build/
+prod_*
 
 # Environment
 .env
