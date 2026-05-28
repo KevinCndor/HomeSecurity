@@ -5,9 +5,31 @@ import WaIcon from "@/components/WaIcon";
 import { MapPin, Phone, Clock, CheckCircle2, Send, Shield, ArrowRight } from "lucide-react";
 import { WHATSAPP_URL, WA_HOME, PHONE_DISPLAY, PHONE_HREF } from "@/lib/constant";
 
-const sectorOptions = [
-  "Costa","Sierra","Amazonía", "Otra provincia / ciudad",
-];
+const ECUADOR_PROVINCIAS: Record<string, string[]> = {
+  "Azuay":            ["Cuenca","Gualaceo","Paute","Sígsig","Santa Isabel","Girón"],
+  "Bolívar":          ["Guaranda","Chillanes","San Miguel","Chimbo"],
+  "Cañar":            ["Azogues","Biblián","Cañar","La Troncal","El Tambo"],
+  "Carchi":           ["Tulcán","Montúfar","Espejo","Mira","Bolívar"],
+  "Chimborazo":       ["Riobamba","Alausí","Colta","Chambo","Guano","Pallatanga"],
+  "Cotopaxi":         ["Latacunga","La Maná","Pujilí","Salcedo","Saquisilí"],
+  "El Oro":           ["Machala","Huaquillas","Pasaje","Santa Rosa","Arenillas","Zaruma","Piñas"],
+  "Esmeraldas":       ["Esmeraldas","Atacames","Quinindé","Muisne","San Lorenzo"],
+  "Guayas":           ["Guayaquil","Samborondón","Daule","Durán","Milagro","Playas","Naranjito","El Triunfo","Nobol","Balzar","Salitre"],
+  "Imbabura":         ["Ibarra","Otavalo","Cotacachi","Antonio Ante","Pimampiro","Urcuquí"],
+  "Loja":             ["Loja","Catamayo","Macará","Calvas","Saraguro","Celica","Paltas"],
+  "Los Ríos":         ["Babahoyo","Quevedo","Vinces","Ventanas","Buena Fe","Mocache","Urdaneta"],
+  "Manabí":           ["Portoviejo","Manta","Chone","El Carmen","Bahía de Caráquez","Pedernales","Jipijapa","Rocafuerte"],
+  "Morona Santiago":  ["Macas","Sucúa","Gualaquiza","Méndez","Palora","Limón Indanza"],
+  "Napo":             ["Tena","Archidona","El Chaco","Quijos"],
+  "Orellana":         ["Francisco de Orellana","Loreto","La Joya de los Sachas","Aguarico"],
+  "Pastaza":          ["Puyo","Mera","Santa Clara","Arajuno"],
+  "Pichincha":        ["Quito","Cayambe","Mejía","Pedro Moncayo","Rumiñahui","San Miguel de los Bancos","Puerto Quito"],
+  "Santa Elena":      ["Santa Elena","La Libertad","Salinas"],
+  "Santo Domingo":    ["Santo Domingo"],
+  "Sucumbíos":        ["Nueva Loja (Lago Agrio)","Gonzalo Pizarro","Putumayo","Shushufindi","Sucumbíos","Cascales","Cuyabeno"],
+  "Tungurahua":       ["Ambato","Baños","Pelileo","Píllaro","Patate","Cevallos","Mocha","Quero","Tisaleo"],
+  "Zamora Chinchipe": ["Zamora","Yantzaza","El Pangui","Chinchipe","Nangaritza"],
+};
 
 const serviceOptions = [
   "Cámaras de Seguridad","Sistemas de Alarmas","Control de Acceso",
@@ -27,32 +49,37 @@ function isValidPhone(value: string): boolean {
 export default function ContactoPage() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
-    name: "", phone: "", sector: "", service: "", cameras: "", message: "",
+    name: "", phone: "", provincia: "", ciudad: "", service: "", cameras: "", message: "",
   });
   const [phoneError, setPhoneError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    if (name === "provincia") {
+      setForm({ ...form, provincia: value, ciudad: "" });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
     if (name === "phone") {
       setPhoneError(value && !isValidPhone(value) ? "Ingresa un número válido" : "");
     }
   };
 
   const handleSubmit = () => {
-    if (!form.name || !form.phone || !form.sector) return;
+    if (!form.name || !form.phone || !form.provincia) return;
+    const ubicacion = form.ciudad ? `${form.ciudad}, ${form.provincia}` : form.provincia;
     const msg =
 `Hola, quiero una cotización de seguridad electrónica.
 👤 Nombre: ${form.name}
 📱 Teléfono: ${form.phone}
-📍 Sector: ${form.sector}
+📍 Ubicación: ${ubicacion}
 🔧 Servicio: ${form.service || "No especificado"}
 📷 Cámaras aprox.: ${form.cameras || "No aplica"}${form.message ? `\n💬 Mensaje: ${form.message}` : ""}`;
     window.open(WHATSAPP_URL(msg), "_blank");
     setSubmitted(true);
   };
 
-  const isValid = form.name.trim() && form.phone.trim() && form.sector && !phoneError;
+  const isValid = form.name.trim() && form.phone.trim() && form.provincia && !phoneError;
   const showCameras = !form.service || form.service === "Cámaras de Seguridad" || form.service === "Paquete integral (varios servicios)";
 
   return (
@@ -128,16 +155,33 @@ export default function ContactoPage() {
                       </div>
                     </div>
 
-                    {/* Sector */}
-                    <div>
-                      <label className="block font-display font-semibold text-navy-800/60 text-xs uppercase tracking-wide mb-2">
-                        Provincia / ciudad en Ecuador <span className="text-orange-500">*</span>
-                      </label>
-                      <select name="sector" value={form.sector} onChange={handleChange}
-                        className="input appearance-none cursor-pointer">
-                        <option value="">Selecciona tu provincia o ciudad</option>
-                        {sectorOptions.map(s => <option key={s} value={s}>{s}</option>)}
-                      </select>
+                    {/* Provincia + Ciudad */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block font-display font-semibold text-navy-800/60 text-xs uppercase tracking-wide mb-2">
+                          Provincia <span className="text-orange-500">*</span>
+                        </label>
+                        <select name="provincia" value={form.provincia} onChange={handleChange}
+                          className="input appearance-none cursor-pointer">
+                          <option value="">Selecciona una provincia</option>
+                          {Object.keys(ECUADOR_PROVINCIAS).map(p => (
+                            <option key={p} value={p}>{p}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block font-display font-semibold text-navy-800/60 text-xs uppercase tracking-wide mb-2">
+                          Ciudad / Cantón
+                        </label>
+                        <select name="ciudad" value={form.ciudad} onChange={handleChange}
+                          disabled={!form.provincia}
+                          className="input appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+                          <option value="">{form.provincia ? "Selecciona una ciudad" : "Elige primero la provincia"}</option>
+                          {form.provincia && ECUADOR_PROVINCIAS[form.provincia].map(c => (
+                            <option key={c} value={c}>{c}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
 
                     {/* Service selector */}
@@ -330,4 +374,3 @@ export default function ContactoPage() {
     </main>
   );
 }
-

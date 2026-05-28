@@ -77,7 +77,7 @@ export default function ServiciosPage() {
 
                     {/* Number badge */}
                     <div className="absolute top-6 left-6">
-                      <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-display font-bold border backdrop-blur-sm bg-white/15 text-white border-white/25`}>
+                      <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-display font-bold border backdrop-blur-md bg-navy-900/75 text-white border-white/30 shadow-[0_8px_24px_rgba(13,27,46,0.35)] ring-1 ring-white/10`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
                         {String(idx + 1).padStart(2, "0")}
                       </span>
