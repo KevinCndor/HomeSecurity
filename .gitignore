@@ -34,7 +34,3 @@ Thumbs.db
 
 # pnpm
 modules/
-
-# lockfiles (commit pnpm-lock.yaml by default, uncomment to ignore)
-pnpm-lock.yaml
-pnpm-workspace.yaml
