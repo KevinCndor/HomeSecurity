@@ -93,6 +93,7 @@ function Hero() {
                     sizes="(min-width: 1024px) 50vw, 100vw"
                     className="object-cover"
                     priority
+                    fetchPriority="high"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-900/50 via-transparent to-transparent" />
                   <div className="absolute top-3 left-3 flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-sm">
