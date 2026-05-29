@@ -90,8 +90,9 @@ export default function ServiciosPage() {
 
                     {/* Title overlay at bottom */}
                     <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <p className={`text-xs font-display font-semibold tracking-widest uppercase mb-1 ${c.text} [text-shadow:0_1px_3px_rgba(0,0,0,.4)]`} style={{ color: undefined }}>
-                        <span className={`inline-block px-2 py-0.5 rounded-md ${c.bg} ${c.text} backdrop-blur-sm border ${c.border}`}>
+                      <p className="text-xs font-display font-semibold tracking-widest uppercase mb-2">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-white/25 bg-navy-900/80 text-white backdrop-blur-md shadow-[0_8px_24px_rgba(13,27,46,0.35)] ring-1 ring-white/10">
+                          <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
                           {subtitle}
                         </span>
                       </p>
