@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Footer from "@/components/Footer";
 import WaIcon from "@/components/WaIcon";
+import { CatalogDownloadLinkInline } from "@/components/CatalogDownloadCard";
 import { MapPin, Phone, Clock, CheckCircle2, Send, Shield, ArrowRight } from "lucide-react";
 import { WHATSAPP_URL, WA_HOME, PHONE_DISPLAY, PHONE_HREF } from "@/lib/constant";
 
@@ -268,6 +269,12 @@ export default function ContactoPage() {
                   <WaIcon className="w-4 h-4" />
                   Abrir WhatsApp directamente
                 </a>
+                <div className="mt-3 pt-3 border-t border-surface-200">
+                  <p className="font-body text-navy-800/50 text-xs mb-2 text-center">
+                    ¿Quieres revisar los modelos primero?
+                  </p>
+                  <CatalogDownloadLinkInline />
+                </div>
               </div>
             </div>
 
