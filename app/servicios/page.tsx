@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import WaIcon from "@/components/WaIcon";
+import CatalogDownloadCard from "@/components/CatalogDownloadCard";
 import { Phone, ArrowRight } from "lucide-react";
 
 import { WA_SERVICIOS, PHONE_HREF, PHONE_DISPLAY, waService } from "@/lib/constant";
@@ -159,6 +160,25 @@ export default function ServiciosPage() {
               Formulario de cotización
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Catálogo técnico PDF */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto mb-8 text-center">
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-navy-900 mb-3">
+              Catálogo técnico de seguridad electrónica
+            </h2>
+            <p className="font-body text-navy-800/60 text-base leading-relaxed">
+              Descubre en nuestro catálogo técnico todos los modelos de{" "}
+              <strong className="text-navy-900">cámaras de seguridad Ecuador</strong>, alarmas, control de
+              acceso y cercas eléctricas de las marcas Hikvision, Dahua y DSC que
+              instalamos. Si tienes claro el equipo que necesitas, cotízalo directo por WhatsApp;
+              si aún estás comparando opciones, descarga el PDF y revísalo con calma.
+            </p>
+          </div>
+          <CatalogDownloadCard />
         </div>
       </section>
 
