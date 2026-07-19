@@ -1,8 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, FileText } from "lucide-react";
 import WaIcon from "@/components/WaIcon";
 import { WA_HOME, PHONE_DISPLAY, EMAIL, ADDRESS } from "@/lib/constant";
+import {
+  CATALOG_PDF_URL,
+  CATALOG_PDF_FILENAME,
+  CATALOG_PDF_SIZE_MB,
+} from "@/lib/catalogo";
 
 const services = [
   "Cámaras de Seguridad",
@@ -58,6 +63,19 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li className="pt-2 mt-2 border-t border-white/10">
+                <a
+                  href={CATALOG_PDF_URL}
+                  download={CATALOG_PDF_FILENAME}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Descargar catálogo técnico en PDF, ${CATALOG_PDF_SIZE_MB} megabytes`}
+                  className="inline-flex items-center gap-1.5 text-cobalt-400 hover:text-cobalt-300 font-body text-sm transition-colors"
+                >
+                  <FileText className="w-3.5 h-3.5" aria-hidden="true" />
+                  Catálogo técnico (PDF)
+                </a>
+              </li>
             </ul>
           </div>
 
